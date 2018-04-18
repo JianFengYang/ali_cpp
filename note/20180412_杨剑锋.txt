@@ -1,0 +1,265 @@
+1. 熟练掌握单例模式的用法，做到随手写出来
+#include<iostream>
+#include<stdio.h>
+
+using std::cout;
+using std::endl;
+
+class Singleton
+{
+public:
+	static *Singleton getInstance()
+	{
+		if(_pInstance==NULL)
+		{
+			_pInstance=new Singleton();
+		}
+		return _pInstance;
+	}
+	
+	static void destroy()
+	{
+		if(_pInstance)
+		{
+			delete _pInstance;
+		}
+	}
+	
+private:
+	static Singleton *_pInstance;
+	
+	Singleton()
+	{
+		cout<<"Singleton()"<<endl;
+	}
+	
+	~Singleton()
+	{
+		cout<<"~Singleton()"<<endl;
+	}
+}
+Singleton *Singleton::_pInstance==NULL;
+
+void testSingleton()
+{
+	Singleton *p1=Singleton::getInstance();
+	Singleton *p2=Singleton::getInstance();
+	
+	cout<<"p1="<<p1<<endl;
+	cout<<"p2="<<p2<<endl;
+	
+	Singleton::destroy();	
+}
+
+int main(void)
+{
+	testSingleton();
+	
+	return 0;
+}
+
+2. 编写一个类，实现简单的栈。栈中有以下操作：
+		   > 元素入栈     void push(int);
+		   > 元素出栈     void pop();
+		   > 读出栈顶元素 int top();
+		   > 判断栈空     bool emty();
+		   > 判断栈满     bool full();
+	 如果栈溢出，程序终止。栈的数据成员由存放
+	 10个整型数据的数组构成。先后做如下操作：
+	     > 创建栈
+	     > 将10入栈
+	     > 将12入栈
+	     > 将14入栈
+	     > 读出并输出栈顶元素
+	     > 出栈
+	     > 读出并输出栈顶元素
+#include <iostream>
+
+using std::cout;
+using std::endl;
+class Stack
+{
+	public:
+		Stack(int top=0)
+			:_top(top)
+		{
+			cout<<"Stack()"<<endl;
+		}
+
+		void push(int x)
+		{
+			if(!full())
+			{
+				_stack[_top]=x;
+				_top++;
+				cout<<"push success"<<endl;
+			}else{
+				cout<<"full"<<endl;
+			}
+		}
+
+		void pop()
+		{
+			if(!emty())
+			{	_top--;
+				cout<<"pop success"<<endl;
+			}else
+				cout<<"empty"<<endl;
+		}
+
+		int top()
+		{
+			return _stack[_top];
+		}
+		bool emty()
+		{
+			if(_top==0)
+				return true;
+			else
+				return false;
+		}
+		bool full()
+		{
+			if(_top==10)
+				return true;
+			else
+				return false;
+		}
+
+		~Stack()
+		{
+			
+		}
+
+	private:
+		int _top;
+		int _stack[10];
+};
+
+int main(void)
+{
+	Stack stack;
+	cout<<"empty:"<<stack.emty()<<endl;
+	stack.push(10);
+	cout<<"empty:"<<stack.emty()<<endl;
+	
+	stack.push(12);
+	stack.push(14);
+	cout<<"top:"<<stack.top()<<endl;
+	stack.pop();
+	cout<<"top:"<<stack.top()<<endl;
+
+
+
+	return 0;
+
+}
+
+
+3. 编写一个类，实现简单的队列。队列中有以下操作：
+       > 元素入队             void push(int);
+       > 元素出队             void pop();
+       > 读取队头元素         int front();
+       > 读取队尾元素         int back();
+       > 判断队列是否为空     bool emty();
+		   > 判断队列是否已满     bool full();
+#include <iostream>
+using std::cout;
+using std::endl;
+
+class Queue
+{
+public:
+	Queue(int size=10)
+	:_size(size)
+	,_front(0)
+	,_rear(0)
+	,_arr(new int[_size]())
+	{
+	}
+
+	bool empty() const
+	{
+		return _front==_rear;
+	}
+
+	bool full () const
+	{
+		return _front==(_rear+1)%_size;
+	}
+
+	void push(int number)
+	{
+		if(full())
+		{
+			cout<<"queue is full"<<endl;
+			return;
+		}else{
+			_arr[_rear++]=number;
+			_rear %=_size;
+		}
+	}
+
+	void pop()
+	{
+		if(empty())
+		{
+			cout<<"queue is empty"<<endl;
+			return;
+		}else{
+			++_front;
+			_front%=_size;
+		}
+	}
+
+	int front()
+	{
+		return _arr[_front];
+	}
+
+	int back()
+	{
+		return _arr[(_rear-1+_size)];
+	}
+
+	~Queue()
+	{
+		delete []_arr;
+	}
+private:
+	int _size;
+	int _front;
+	int _rear;
+	int *_arr;
+};
+
+int main(void)
+{
+	Queue queue;
+	cout<<"emmpty:"<<queue.empty()<<endl;
+	queue.push(1);
+	cout<<"empty:"<<queue.empty()<<endl;
+
+	for(int idx=2;idx!=10;++idx)
+	{
+		queue.push(idx);
+	}
+
+	cout<<"full:"<<queue.full()<<endl;
+
+	queue.pop();
+	queue.push(10);
+
+	cout<<"head:"<<queue.front()<<endl;
+	cout<<"tail:"<<queue.back()<<endl;
+
+	while(!queue.empty())
+	{
+		cout<<queue.front()<<" ";
+		queue.pop();
+	}
+	cout<<endl;
+	cout<<"empty:"<<queue.empty()<<endl;
+
+	return 0;
+}
