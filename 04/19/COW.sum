@@ -1,4 +1,0 @@
-String
-	operator[] size() refcount()//堆中
-	friend ostream oprator <<
-	initR ++ -- free:

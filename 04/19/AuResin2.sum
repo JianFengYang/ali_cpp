@@ -1,9 +1,0 @@
-单例自动释放 2
-atexit+pthread_once limit linux Posix
-
-Singleton
-	getInstance
-	pthread_once
-		init destroy
-懒汉模式
-

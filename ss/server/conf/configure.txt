@@ -1,0 +1,7 @@
+myRssResource ./RssSource
+myStopWord ./stop_words_zh.txt
+myPageLib ../server/data/ripepage.lib
+myOffsetLib ../server/data/offset.lib
+myIndexLib ../server/data/invertindex.lib
+myip 192.168.214.129
+myport     8888
